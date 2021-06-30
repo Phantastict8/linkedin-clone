@@ -8,10 +8,10 @@ const Home = props => {
         <Container>
             <Section>
                 <h5>
-                    <a>Hiring in a Hurry?</a>
+                    <a>Hiring in a Hurry? - </a>
                 </h5>
                 <p>
-                    Find talented pros in record time with Upwork and keep
+                     Find talented pros in record time with Upwork and keep
                     business moving.
                 </p>
             </Section>
@@ -57,7 +57,7 @@ const Section = styled.section`
     p {
         font-size: 14px;
         color: #434649;
-        font-weight: 960;
+        font-weight: 600;
     }
 
     @media (max-width: 768px) {
