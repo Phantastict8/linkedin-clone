@@ -1,34 +1,81 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const PostModal = props => {
+    const [editorText, setEditorText] = useState('');
+
+    const reset = e => {
+        setEditorText('');
+        props.handleClick(e);
+    };
+
     return (
-        <Container>
-            <Content>
-                <Header>
-                    <h2>Create a post</h2>
-                    <button>
-                        <img src="/images/unnamed.png" alt="" width="25" />
-                    </button>
-                </Header>
-                <SharedContent>
-                    <UserInfo>
-                        <img src="/images/user.svg" alt="" />
-                        <span>Name</span>
-                    </UserInfo>
-                </SharedContent>
-                <ShareCreation>
-                    <AttachAssets>
-                        <AssetButton>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png" alt="" height="25" />
-                        </AssetButton>
-                        <AssetButton>
-                            <img src="https://i.etsystatic.com/10919371/r/il/155a7d/1563938723/il_570xN.1563938723_1rmr.jpg" alt="" height="22" />
-                        </AssetButton>
-                    </AttachAssets>
-                    
-                </ShareCreation>
-            </Content>
-        </Container>
+        <>
+            {props.showModal === 'open' && (
+                <Container>
+                    <Content>
+                        <Header>
+                            <h2>Create a post</h2>
+                            <button onClick={event => reset(event)}>
+                                <img
+                                    src="/images/unnamed.png"
+                                    alt=""
+                                    width="25"
+                                />
+                            </button>
+                        </Header>
+                        <SharedContent>
+                            <UserInfo>
+                                <img src="/images/user.svg" alt="" />
+                                <span>Name</span>
+                            </UserInfo>
+
+                            <Editor>
+                                <textarea
+                                    value={editorText}
+                                    onChange={e =>
+                                        setEditorText(e.target.value)
+                                    }
+                                    placeholder="What do you want to talk about?"
+                                    autoFocus={true}
+                                ></textarea>
+                            </Editor>
+                        </SharedContent>
+                        <ShareCreation>
+                            <AttachAssets>
+                                <AssetButton>
+                                    <img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
+                                        alt=""
+                                        height="25"
+                                    />
+                                </AssetButton>
+                                <AssetButton>
+                                    <img
+                                        src="https://i.etsystatic.com/10919371/r/il/155a7d/1563938723/il_570xN.1563938723_1rmr.jpg"
+                                        alt=""
+                                        height="22"
+                                    />
+                                </AssetButton>
+                            </AttachAssets>
+
+                            <ShareComment>
+                                <AssetButton>
+                                    <img
+                                        src="https://cdn.iconscout.com/icon/free/png-256/comment-2551199-2136583.png"
+                                        alt=""
+                                        height="20"
+                                    />
+                                    Anyone
+                                </AssetButton>
+                            </ShareComment>
+
+                            <PostButton>Post</PostButton>
+                        </ShareCreation>
+                    </Content>
+                </Container>
+            )}
+        </>
     );
 };
 
@@ -77,7 +124,8 @@ const Header = styled.div`
         min-width: auto;
         color: rgba(0, 0, 0, 0.15);
 
-        svg {
+        svg,
+        img {
             pointer-events: none;
         }
     }
@@ -126,7 +174,7 @@ const AssetButton = styled.button`
     align-items: center;
     height: 40px;
     min-width: auto;
-    color: rgba(0,0,0,0.5);
+    color: rgba(0, 0, 0, 0.5);
 `;
 
 const AttachAssets = styled.div`
@@ -136,5 +184,47 @@ const AttachAssets = styled.div`
 
     ${AssetButton} {
         width: 40px;
+    }
+`;
+
+const ShareComment = styled.div`
+    padding-left: 8px;
+    margin-right: auto;
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
+
+    ${AssetButton} {
+        svg {
+            margin-right: 5px;
+        }
+    }
+`;
+
+const PostButton = styled.button`
+    min-width: 60px;
+    border-radius: 20px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: #0a66c2;
+    color: white;
+
+    &:hover {
+        background: #004182;
+    }
+`;
+
+const Editor = styled.div`
+    padding: 12px 24px;
+
+    textarea {
+        width: 100%;
+        min-height: 100px;
+        resize: none;
+    }
+
+    input {
+        width: 100%;
+        height: 35px;
+        font-size: 16px;
+        margin-bottom: 20px;
     }
 `;

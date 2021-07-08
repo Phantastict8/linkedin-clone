@@ -1,13 +1,35 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import PostModal from './PostModal';
 
 const Main = props => {
+    const [showModal, setShowModal] = useState('close');
+
+    const handleClick = e => {
+        e.preventDefault();
+        if (e.target !== e.currentTarget) {
+            return;
+        }
+
+        switch (showModal) {
+            case 'open':
+                setShowModal('close');
+                break;
+            case 'close':
+                setShowModal('open');
+                break;
+            default:
+                setShowModal('close');
+                break;
+        }
+    };
+
     return (
         <Container>
             <ShareBox>
                 <div>
                     <img src="/images/user.svg" atl="" />
-                    <button>Start a post</button>
+                    <button onClick={handleClick}>Start a post</button>
                 </div>
                 <div>
                     <button>
@@ -94,35 +116,39 @@ const Main = props => {
                         <button>
                             <img
                                 src="https://www.vectorico.com/wp-content/uploads/2018/02/Like-Icon.png"
-                                alt="" width="20px"
+                                alt=""
+                                width="20px"
                             />
                             <span>Like</span>
                         </button>
                         <button>
                             <img
                                 src="https://cdn.iconscout.com/icon/free/png-256/comment-2551199-2136583.png"
-                                alt="" width="20px"
+                                alt=""
+                                width="20px"
                             />
                             <span>Comments</span>
                         </button>
                         <button>
                             <img
                                 src="https://static.thenounproject.com/png/37730-200.png"
-                                alt="" width="20px"
+                                alt=""
+                                width="20px"
                             />
                             <span>Share</span>
                         </button>
                         <button>
                             <img
                                 src="https://img.icons8.com/ios/452/sent.png"
-                                alt="" width="20px"
+                                alt=""
+                                width="20px"
                             />
                             <span>Send</span>
                         </button>
                     </SocialActions>
                 </Article>
             </div>
-            <PostModal />
+            <PostModal showModal={showModal} handleClick={handleClick} />
         </Container>
     );
 };
@@ -321,6 +347,6 @@ const SocialActions = styled.div`
 
         @media (min-width: 768px) {
             margin-left: 8px;
-        }    
+        }
     }
 `;
