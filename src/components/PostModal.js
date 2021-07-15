@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
-
+import { connect } from 'react-redux';
+import firebase from 'firebase';
+import { postArticleAPI } from '../actions';
 
 const PostModal = props => {
     const [editorText, setEditorText] = useState('');
@@ -24,6 +26,26 @@ const PostModal = props => {
         setShareImage('');
         setVideoLink('');
         setAssetArea(area);
+    };
+
+    const postArticle = e => {
+        console.log("post malone")
+        e.preventDefault();
+        if (e.target !== e.currentTarget) {
+            console.log("hello")
+            return;
+        }
+
+        const payload = {
+            image: shareImage,
+            video: videoLink,
+            user: props.user,
+            description: editorText,
+            timestamp: firebase.firestore.Timestamp.now(),
+        };
+
+        props.postArticle(payload);
+        reset(e);
     };
 
     const reset = e => {
@@ -51,8 +73,12 @@ const PostModal = props => {
                         </Header>
                         <SharedContent>
                             <UserInfo>
-                                <img src="/images/user.svg" alt="" />
-                                <span>Name</span>
+                                {props.user.photoURL ? (
+                                    <img src={props.user.photoURL} />
+                                ) : (
+                                    <img src="/images/user.svg" alt="" />
+                                )}
+                                <span>{props.user.displayName}</span>
                             </UserInfo>
 
                             <Editor>
@@ -112,14 +138,18 @@ const PostModal = props => {
                         </SharedContent>
                         <ShareCreation>
                             <AttachAssets>
-                                <AssetButton onClick={() => switchAssetArea('image')}>
+                                <AssetButton
+                                    onClick={() => switchAssetArea('image')}
+                                >
                                     <img
                                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
                                         alt=""
                                         height="25"
                                     />
                                 </AssetButton>
-                                <AssetButton onClick={() => switchAssetArea('media')}>
+                                <AssetButton
+                                    onClick={() => switchAssetArea('media')}
+                                >
                                     <img
                                         src="https://i.etsystatic.com/10919371/r/il/155a7d/1563938723/il_570xN.1563938723_1rmr.jpg"
                                         alt=""
@@ -139,7 +169,10 @@ const PostModal = props => {
                                 </AssetButton>
                             </ShareComment>
 
-                            <PostButton disabled={!editorText ? true : false}>
+                            <PostButton
+                                disabled={!editorText ? true : false}
+                                onClick={event => postArticle(event)}
+                            >
                                 Post
                             </PostButton>
                         </ShareCreation>
@@ -150,7 +183,17 @@ const PostModal = props => {
     );
 };
 
-export default PostModal;
+const mapStateToProps = state => {
+    return {
+        user: state.userState.user,
+    };
+};
+
+const mapDispatchToProps = dispatch => ({
+    postArticle: payload => dispatch(postArticleAPI(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostModal);
 
 const Container = styled.div`
     position: fixed;
