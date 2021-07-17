@@ -34,10 +34,7 @@ const Rightside = props => {
                 </Recommendation>
             </FollowCard>
             <BannerCard>
-                <img
-                    src="/images/jobs-ad.jpg"
-                    alt=""
-                />
+                <img src="/images/jobs-ad.jpg" alt="" />
             </BannerCard>
         </Container>
     );
@@ -72,32 +69,35 @@ const Title = styled.div`
 
 const FeedList = styled.ul`
     margin-top: 16px;
-    display: flex;
-    align-items: center;
-    margin: 12px 0;
-    position: relative;
-    font-size: 14px;
 
-    & > div {
+    li {
         display: flex;
-        flex-direction: column;
-    }
-
-    button {
-        background-color: transparent;
-        color: rgba(0, 0, 0, 0.6);
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6);
-        padding: 16px;
         align-items: center;
-        border-radius: 15px;
-        box-sizing: border-box;
-        font-weight: 600;
-        display: inline-flex;
-        justify-content: center;
-        max-height: 32px;
-        max-width: 480;
-        text-align: center;
-        outline: none;
+        margin: 12px 0;
+        position: relative;
+        font-size: 14px;
+
+        & > div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            background-color: transparent;
+            color: rgba(0, 0, 0, 0.6);
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.6);
+            padding: 16px;
+            align-items: center;
+            border-radius: 15px;
+            box-sizing: border-box;
+            font-weight: 600;
+            display: inline-flex;
+            justify-content: center;
+            max-height: 32px;
+            max-width: 480px;
+            text-align: center;
+            outline: none;
+        }
     }
 `;
 
