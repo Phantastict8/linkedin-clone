@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PostModal from './PostModal';
+import ReactPlayer from 'react-player';
 import { connect } from 'react-redux';
 import { getArticlesAPI } from '../actions';
 
@@ -94,86 +95,111 @@ const Main = props => {
                             />
                         )}
 
-                        <Article>
-                            <SharedActor>
-                                <a>
-                                    <img src="/images/user.svg" alt="" />
-                                    <div>
-                                        <span>Title</span>
-                                        <span>Info</span>
-                                        <span>Date</span>
-                                    </div>
-                                </a>
-                                <button>
-                                    <img
-                                        src="https://cdn2.mhpbooks.com/2019/10/Simple_icon_ellipsis.svg_.png"
-                                        alt=""
-                                        height="30px"
-                                    />
-                                </button>
-                            </SharedActor>
-                            <Description>Description</Description>
-                            <SharedImg>
-                                <a>
-                                    <img
-                                        src="https://png.pngtree.com/thumb_back/fh260/background/20200714/pngtree-modern-double-color-futuristic-neon-background-image_351866.jpg"
-                                        alt=""
-                                    />
-                                </a>
-                            </SharedImg>
-                            <SocialCounts>
-                                <li>
-                                    <button>
-                                        <img
-                                            src="https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb"
-                                            alt=""
-                                        />
-                                        <img
-                                            src="https://static-exp1.licdn.com/sc/h/5thsbmikm6a8uov24ygwd914f"
-                                            alt=""
-                                        />
-                                        <span>75</span>
-                                    </button>
-                                </li>
-                                <li>
-                                    <a>2 comments</a>
-                                </li>
-                            </SocialCounts>
-                            <SocialActions>
-                                <button>
-                                    <img
-                                        src="https://www.vectorico.com/wp-content/uploads/2018/02/Like-Icon.png"
-                                        alt=""
-                                        width="20px"
-                                    />
-                                    <span>Like</span>
-                                </button>
-                                <button>
-                                    <img
-                                        src="https://cdn.iconscout.com/icon/free/png-256/comment-2551199-2136583.png"
-                                        alt=""
-                                        width="20px"
-                                    />
-                                    <span>Comments</span>
-                                </button>
-                                <button>
-                                    <img
-                                        src="https://static.thenounproject.com/png/37730-200.png"
-                                        alt=""
-                                        width="20px"
-                                    />
-                                    <span>Share</span>
-                                </button>
-                                <button>
-                                    <img
-                                        src="https://img.icons8.com/ios/452/sent.png"
-                                        alt=""
-                                        width="20px"
-                                    />
-                                    <span>Send</span>
-                                </button>
-                            </SocialActions>
-                        </Article>
+                        {props.articles.length > 0 &&
+                            props.articles.map((article, key) => (
+                                <Article key={key}>
+                                    <SharedActor>
+                                        <a>
+                                            <img
+                                                src={article.actor.image}
+                                                alt=""
+                                            />
+                                            <div>
+                                                <span>
+                                                    {article.actor.title}
+                                                </span>
+                                                <span>
+                                                    {article.actor.description}
+                                                </span>
+                                                <span>
+                                                    {article.actor.date
+                                                        .toDate()
+                                                        .toLocaleDateString()}
+                                                </span>
+                                            </div>
+                                        </a>
+                                        <button>
+                                            <img
+                                                src="https://cdn2.mhpbooks.com/2019/10/Simple_icon_ellipsis.svg_.png"
+                                                alt=""
+                                                height="30px"
+                                            />
+                                        </button>
+                                    </SharedActor>
+                                    <Description>
+                                        {article.description}
+                                    </Description>
+                                    <SharedImg>
+                                        <a>
+                                            {!article.sharedImg &&
+                                            article.video ? (
+                                                <ReactPlayer
+                                                    width={'100%'}
+                                                    url={article.video}
+                                                />
+                                            ) : (
+                                                article.sharedImg && (
+                                                    <img
+                                                        src={article.sharedImg}
+                                                    />
+                                                )
+                                            )}
+                                        </a>
+                                    </SharedImg>
+                                    <SocialCounts>
+                                        <li>
+                                            <button>
+                                                <img
+                                                    src="https://static-exp1.licdn.com/sc/h/d310t2g24pvdy4pt1jkedo4yb"
+                                                    alt=""
+                                                />
+                                                <img
+                                                    src="https://static-exp1.licdn.com/sc/h/5thsbmikm6a8uov24ygwd914f"
+                                                    alt=""
+                                                />
+                                                <span>75</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <a>{article.comments}</a>
+                                        </li>
+                                    </SocialCounts>
+                                    <SocialActions>
+                                        <button>
+                                            <img
+                                                src="https://www.vectorico.com/wp-content/uploads/2018/02/Like-Icon.png"
+                                                alt=""
+                                                width="20px"
+                                            />
+                                            <span>Like</span>
+                                        </button>
+                                        <button>
+                                            <img
+                                                src="https://cdn.iconscout.com/icon/free/png-256/comment-2551199-2136583.png"
+                                                alt=""
+                                                width="20px"
+                                            />
+                                            <span>Comments</span>
+                                        </button>
+                                        <button>
+                                            <img
+                                                src="https://static.thenounproject.com/png/37730-200.png"
+                                                alt=""
+                                                width="20px"
+                                            />
+                                            <span>Share</span>
+                                        </button>
+                                        <button>
+                                            <img
+                                                src="https://img.icons8.com/ios/452/sent.png"
+                                                alt=""
+                                                width="20px"
+                                            />
+                                            <span>Send</span>
+                                        </button>
+                                    </SocialActions>
+                                </Article>
+                            ))}
                     </Content>
                     <PostModal
                         showModal={showModal}
@@ -372,6 +398,8 @@ const SocialCounts = styled.div`
 
         button {
             display: flex;
+            border: none;
+            background-color: white;
         }
     }
 `;
@@ -383,11 +411,14 @@ const SocialActions = styled.div`
     margin: 0;
     min-height: 40px;
     padding: 4px 8px;
+
     button {
         display: inline-flex;
         align-items: center;
         padding: 8px;
         color: #0a66c2;
+        border: none;
+        background-color: white;
 
         @media (min-width: 768px) {
             margin-left: 8px;
